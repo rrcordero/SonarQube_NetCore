@@ -2,7 +2,6 @@
 SonarScanner Dockerfile to build if your server run on Linux and need to test NetCore applications.
 I put together this solution because my Jenkins server didn't have a license, and Java 11 to run the SonarScanner plugin couldn't install it.
 
-Resume:
         Variables:
                     SONAR_HOST
                     SONAR_PRJ_KEY
