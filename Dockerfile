@@ -7,11 +7,6 @@ ARG SONAR_TOKEN
 ENV SONAR_HOST=$SONAR_HOST
 ENV SONAR_PRJ_KEY=$SONAR_PRJ_KEY
 ENV SONAR_TOKEN=$SONAR_TOKEN
-ENV http_proxy http://proxysrv.gobiernocba.gov.ar:8080
-ENV https_proxy http://proxysrv.gobiernocba.gov.ar:8080
-ENV no_proxy localhost, d250lxcrmfpr01, d250lxcmfde04, d250lxcmfde05, d250lxcmfde06, *.test.cba.gov.ar, *.desa.cba.gov.ar, *.gobiernocba.gov.ar, *.cba.gov.ar, *.gov.ar, *.10.250.10.71, d250ln03, d250lxcmfde10
-
-RUN echo $SONAR_HOST, $SONAR_PRJ_KEY, $SONAR_TOKEN
 
 RUN set -eux; \
     apt-get clean; \
@@ -31,16 +26,10 @@ RUN set -eux; \
                 netstandard-targeting-pack-2.1 \
                 dotnet-sdk-6.0 \
                 \
-# jlink --strip-debug on 13+ needs objcopy: https://github.com/docker-library/openjdk/issues/351
-# Error: java.io.IOException: Cannot run program "objcopy": error=2, No such file or directory
                 binutils \
                 \
-# java.lang.UnsatisfiedLinkError: /usr/local/openjdk-11/lib/libfontmanager.so: libfreetype.so.6: cannot open shared object file: No such file or directory
-# java.lang.NoClassDefFoundError: Could not initialize class sun.awt.X11FontManager
-# https://github.com/docker-library/openjdk/pull/235#issuecomment-424466077
                 fontconfig libfreetype6 \
                 \
-# utilities for keeping Debian and OpenJDK CA certificates in sync
                 ca-certificates p11-kit \
         ; \
         rm -rf /var/lib/apt/lists/*
